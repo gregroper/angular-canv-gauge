@@ -1,0 +1,58 @@
+<!doctype html>
+<html ng-app="project">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.14/angular.min.js"></script>
+    <script src="gauge.js"></script>
+    <script src="angular-canv-gauge.js"></script>
+    <script>
+      angular.module('project', ['angular-canv-gauge']).controller('myController', ['$scope', function($scope){
+        $scope.my_options = {
+          renderTo    : 'gauge',
+          width       : '250',
+          height      : '250',
+          glow        : true,
+          units       : "Km/h",
+          title       : false,
+          minValue    : 0,
+          maxValue    : 220,
+          majorTicks  : ['0','20','40','60','80','100','120','140','160','180','200','220'],
+          minorTicks  : 2,
+          strokeTicks : false,
+          highlights  : [
+            { from : 0,   to : 50, color : 'rgba(0,   255, 0, .15)' },
+            { from : 50, to : 100, color : 'rgba(255, 255, 0, .15)' },
+            { from : 100, to : 150, color : 'rgba(255, 30,  0, .25)' },
+            { from : 150, to : 200, color : 'rgba(255, 0,  225, .25)' },
+            { from : 200, to : 220, color : 'rgba(0, 0,  255, .25)' }
+          ],
+          colors      : {
+            plate      : '#222',
+            majorTicks : '#f5f5f5',
+            minorTicks : '#ddd',
+            title      : '#fff',
+            units      : '#ccc',
+            numbers    : '#eee',
+            needle     : { start : 'rgba(240, 128, 128, 1)', end : 'rgba(255, 160, 122, .9)' }
+          }
+        };
+        $scope.my_value = 0;
+
+        $scope.units = ['Km/h', 'mph'];
+
+        $scope.setValue = function(value){
+          $scope.my_value = value;
+        }
+      }]);
+    </script>
+  </head>
+  <body>
+    <div ng-controller="myController">
+      <h2>AngularJS & Canvas Gauge</h2>
+      <canvas canv-gauge id="gauge" value="my_value" options="my_options"></canvas><br/>
+      <select ng-model="my_options.units" ng-options="unit for unit in units"></select>
+      <input ng-model="my_value"></input>
+      <button ng-click="setValue(120)">Set to 120</button>
+      <hr>
+    </div>
+  </body>
+</html>
